@@ -80,7 +80,7 @@
             searchBtn.TabIndex = 3;
             searchBtn.Text = "Suchen";
             searchBtn.UseVisualStyleBackColor = true;
-            searchBtn.KeyUp += searchBtn_KeyUp;
+            searchBtn.Click += searchBtn_Click;
             // 
             // exitBtn
             // 
