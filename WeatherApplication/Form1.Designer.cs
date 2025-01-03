@@ -40,6 +40,7 @@
             placeLabel = new Label();
             descriptionLabel = new Label();
             tempCurrentLabel = new Label();
+            newSearchBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)sunPicture).BeginInit();
             SuspendLayout();
             // 
@@ -71,6 +72,7 @@
             searchText.PlaceholderText = "Bitte geben sie Ihre Stadt ein";
             searchText.Size = new Size(817, 23);
             searchText.TabIndex = 2;
+            searchText.KeyUp += searchText_KeyUp;
             // 
             // searchBtn
             // 
@@ -125,11 +127,11 @@
             // 
             placeLabel.Font = new Font("Verdana", 60F, FontStyle.Bold, GraphicsUnit.Point, 0);
             placeLabel.ForeColor = Color.FromArgb(210, 219, 229);
-            placeLabel.Location = new Point(34, 237);
+            placeLabel.Location = new Point(90, 291);
             placeLabel.Name = "placeLabel";
-            placeLabel.Size = new Size(835, 371);
+            placeLabel.Size = new Size(779, 263);
             placeLabel.TabIndex = 8;
-            placeLabel.TextAlign = ContentAlignment.MiddleLeft;
+            placeLabel.TextAlign = ContentAlignment.TopRight;
             placeLabel.Visible = false;
             // 
             // descriptionLabel
@@ -152,12 +154,23 @@
             tempCurrentLabel.TabIndex = 10;
             tempCurrentLabel.Visible = false;
             // 
+            // newSearchBtn
+            // 
+            newSearchBtn.Location = new Point(1316, 644);
+            newSearchBtn.Name = "newSearchBtn";
+            newSearchBtn.Size = new Size(92, 23);
+            newSearchBtn.TabIndex = 11;
+            newSearchBtn.Text = "Anderer Ort";
+            newSearchBtn.UseVisualStyleBackColor = true;
+            newSearchBtn.Click += newSearchBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 71, 124);
             ClientSize = new Size(1521, 689);
+            Controls.Add(newSearchBtn);
             Controls.Add(tempCurrentLabel);
             Controls.Add(descriptionLabel);
             Controls.Add(placeLabel);
@@ -191,5 +204,6 @@
         private Label placeLabel;
         private Label descriptionLabel;
         private Label tempCurrentLabel;
+        private Button newSearchBtn;
     }
 }
