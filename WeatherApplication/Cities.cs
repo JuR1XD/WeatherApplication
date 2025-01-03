@@ -13,11 +13,12 @@ namespace WeatherApplication
         public string country { get; set; }
         public string lat { get; set; }
         public string lon { get; set; }
+        public string state { get; set; }
 
 
         public override string ToString()
         {
-            return $"{name}, Land: {country}";
+            return state == null || state == "" ? $"{name}, {country}" : $"{name}, {country}, Staat: {state}";
         }
 
     }

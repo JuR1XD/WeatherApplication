@@ -22,11 +22,11 @@ namespace WeatherApplication
 
         HttpResponseMessage messageWeather;
 
+        CountryCodeConverter countryCodeConverter = new CountryCodeConverter("C:\\Users\\jur1xd\\AlfaTrainingC#\\Projektarbeit\\WeatherApp\\WeatherApplication\\WeatherApplication\\country_codes.csv");
+
         string lat = string.Empty;
 
         string lon = string.Empty;
-
-        private List<String> cities { get; set; } = new();
 
         public Form1()
         {
@@ -51,7 +51,7 @@ namespace WeatherApplication
             try
             {
                 //Geocode API URI
-                urlGeoCode = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchText.Text + "&limit=5&appid=";
+                urlGeoCode = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchText.Text + "&limit=5&appid=9df7a899f8af39899299a6f6ac9ce26b";
 
                 //Starting of the Geolocation API
                 clientGeo = new HttpClient();
@@ -60,16 +60,18 @@ namespace WeatherApplication
                 string responseBodyGeo = await messageGeo.Content.ReadAsStringAsync();
                 JArray jsonObjectGeo = JArray.Parse(responseBodyGeo);
 
-
-
-                for (int i = 0; i < jsonObjectGeo.Count; i++)
+                var cities = jsonObjectGeo.Select(city => new Cities
                 {
-                    lbCities.Items.Add(jsonObjectGeo[i]);
-                }
+                    name = city.Value<string>("name"),
+                    country = countryCodeConverter.ConvertCountryCodeToName(city.Value<string>("country")),
+                    lat = city.Value<string>("lat"),
+                    lon = city.Value<string>("lon"),
+                    state = city.Value<string>("state") == null || city.Value<string>("state").Equals(string.Empty) ? "" : city.Value<string>("state")
+                }).ToList();
 
-                lbCities.ValueMember = "name";
+                lbCities.DataSource = cities;
 
-                if (lbCities.Items.Count <= 0) throw new NoItemsInListBoxException("Es wurden keine Länder basierend auf den Eingaben gefunden");
+                if (lbCities.Items.Count <= 0) throw new NoItemsInListBoxException("Es wurden keine Orte basierend auf Ihren Daten gefunden");
 
                 lbCities.SelectedIndex = 0;
 
@@ -78,18 +80,60 @@ namespace WeatherApplication
                 lbCities.Visible = true;
                 confirmBtn.Visible = true;
                 denyBtn.Visible = true;
-
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Das gesuchte Land konnte nicht gefunden werden\n\n{ex.Message}", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden\n\n{ex.Message}", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-
-        public List<String> getCities()
+        private async void searchText_KeyUp(object sender, KeyEventArgs e)
         {
-            return this.cities;
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    //Geocode API URI
+                    urlGeoCode = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchText.Text + "&limit=5&appid=9df7a899f8af39899299a6f6ac9ce26b";
+
+                    //Starting of the Geolocation API
+                    clientGeo = new HttpClient();
+                    messageGeo = await clientGeo.GetAsync(urlGeoCode);
+                    messageGeo.EnsureSuccessStatusCode();
+                    string responseBodyGeo = await messageGeo.Content.ReadAsStringAsync();
+                    JArray jsonObjectGeo = JArray.Parse(responseBodyGeo);
+
+                    var cities = jsonObjectGeo.Select(city => new Cities
+                    {
+                        name = city.Value<string>("name"),
+                        country = countryCodeConverter.ConvertCountryCodeToName(city.Value<string>("country")),
+                        lat = city.Value<string>("lat"),
+                        lon = city.Value<string>("lon"),
+                        state = city.Value<string>("state") == null || city.Value<string>("state").Equals(string.Empty) ? "" : city.Value<string>("state")
+                    }).ToList();
+
+                    lbCities.DataSource = cities;
+
+                    //lbCities.ValueMember = "name + country";
+
+                    if (lbCities.Items.Count <= 0) throw new NoItemsInListBoxException("Es wurden keine Orte basierend auf Ihren Daten gefunden");
+
+                    lbCities.SelectedIndex = 0;
+
+                    searchBtn.Visible = false;
+                    searchText.Visible = false;
+                    lbCities.Visible = true;
+                    confirmBtn.Visible = true;
+                    denyBtn.Visible = true;
+
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden\n\n{ex.Message}", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void denyBtn_Click(object sender, EventArgs e)
@@ -118,7 +162,7 @@ namespace WeatherApplication
             placeLabel.Text = city.name + ":";
 
             //Weather API URI
-            urlWeatherAPI = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&appid=&units=metric&lang=de&exclude=minutely";
+            urlWeatherAPI = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&appid=9df7a899f8af39899299a6f6ac9ce26b&units=metric&lang=de&exclude=minutely";
 
             //Starting of the Weather API
             clientWeather = new HttpClient();
@@ -150,54 +194,6 @@ namespace WeatherApplication
 
         }
 
-        private async void searchText_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                try
-                {
-                    //Geocode API URI
-                    urlGeoCode = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchText.Text + "&limit=5&appid=9df7a899f8af39899299a6f6ac9ce26b";
-
-                    //Starting of the Geolocation API
-                    clientGeo = new HttpClient();
-                    messageGeo = await clientGeo.GetAsync(urlGeoCode);
-                    messageGeo.EnsureSuccessStatusCode();
-                    string responseBodyGeo = await messageGeo.Content.ReadAsStringAsync();
-                    JArray jsonObjectGeo = JArray.Parse(responseBodyGeo);
-
-                    var cities = jsonObjectGeo.Select(city => new Cities
-                    {
-                        name = city.Value<string>("name"),
-                        country = city.Value<string>("country"),
-                        lat = city.Value<string>("lat"),
-                        lon = city.Value<string>("lon")
-                    }).ToList();
-
-                    lbCities.DataSource = cities;
-
-                    //lbCities.ValueMember = "name + country";
-
-                    if (lbCities.Items.Count <= 0) throw new NoItemsInListBoxException("Es wurden keine Orte basierend auf Ihren Daten gefunden");
-
-                    lbCities.SelectedIndex = 0;
-
-                    searchBtn.Visible = false;
-                    searchText.Visible = false;
-                    lbCities.Visible = true;
-                    confirmBtn.Visible = true;
-                    denyBtn.Visible = true;
-
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden\n\n{ex.Message}", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
         private void newSearchBtn_Click(object sender, EventArgs e)
         {
             searchText.Text = string.Empty;
@@ -210,6 +206,11 @@ namespace WeatherApplication
             tempCurrentLabel.Visible = false;
             descriptionLabel.Visible = false;
             newSearchBtn.Visible = false;
+        }
+
+        private void weekViewBtn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

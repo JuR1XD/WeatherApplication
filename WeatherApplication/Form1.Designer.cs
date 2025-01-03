@@ -41,6 +41,7 @@
             descriptionLabel = new Label();
             tempCurrentLabel = new Label();
             newSearchBtn = new Button();
+            weekViewBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)sunPicture).BeginInit();
             SuspendLayout();
             // 
@@ -67,15 +68,17 @@
             // 
             // searchText
             // 
+            searchText.Font = new Font("Verdana", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             searchText.Location = new Point(356, 354);
             searchText.Name = "searchText";
             searchText.PlaceholderText = "Bitte geben sie Ihre Stadt ein";
-            searchText.Size = new Size(817, 23);
+            searchText.Size = new Size(817, 31);
             searchText.TabIndex = 2;
             searchText.KeyUp += searchText_KeyUp;
             // 
             // searchBtn
             // 
+            searchBtn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             searchBtn.Location = new Point(698, 419);
             searchBtn.Name = "searchBtn";
             searchBtn.Size = new Size(143, 23);
@@ -86,6 +89,7 @@
             // 
             // exitBtn
             // 
+            exitBtn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             exitBtn.Location = new Point(1425, 644);
             exitBtn.Name = "exitBtn";
             exitBtn.Size = new Size(84, 23);
@@ -96,15 +100,17 @@
             // 
             // lbCities
             // 
+            lbCities.Font = new Font("Verdana", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbCities.FormattingEnabled = true;
-            lbCities.ItemHeight = 15;
-            lbCities.Location = new Point(595, 333);
+            lbCities.ItemHeight = 25;
+            lbCities.Location = new Point(478, 333);
             lbCities.Name = "lbCities";
-            lbCities.Size = new Size(368, 169);
+            lbCities.Size = new Size(613, 154);
             lbCities.TabIndex = 5;
             // 
             // confirmBtn
             // 
+            confirmBtn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             confirmBtn.Location = new Point(595, 531);
             confirmBtn.Name = "confirmBtn";
             confirmBtn.Size = new Size(75, 23);
@@ -115,9 +121,10 @@
             // 
             // denyBtn
             // 
+            denyBtn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             denyBtn.Location = new Point(888, 531);
             denyBtn.Name = "denyBtn";
-            denyBtn.Size = new Size(75, 23);
+            denyBtn.Size = new Size(98, 23);
             denyBtn.TabIndex = 7;
             denyBtn.Text = "Abbrechen";
             denyBtn.UseVisualStyleBackColor = true;
@@ -156,6 +163,7 @@
             // 
             // newSearchBtn
             // 
+            newSearchBtn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             newSearchBtn.Location = new Point(1316, 644);
             newSearchBtn.Name = "newSearchBtn";
             newSearchBtn.Size = new Size(92, 23);
@@ -164,12 +172,24 @@
             newSearchBtn.UseVisualStyleBackColor = true;
             newSearchBtn.Click += newSearchBtn_Click;
             // 
+            // weekViewBtn
+            // 
+            weekViewBtn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            weekViewBtn.Location = new Point(32, 644);
+            weekViewBtn.Name = "weekViewBtn";
+            weekViewBtn.Size = new Size(123, 23);
+            weekViewBtn.TabIndex = 12;
+            weekViewBtn.Text = "Wochenansicht";
+            weekViewBtn.UseVisualStyleBackColor = true;
+            weekViewBtn.Click += weekViewBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 71, 124);
             ClientSize = new Size(1521, 689);
+            Controls.Add(weekViewBtn);
             Controls.Add(newSearchBtn);
             Controls.Add(tempCurrentLabel);
             Controls.Add(descriptionLabel);
@@ -205,5 +225,6 @@
         private Label descriptionLabel;
         private Label tempCurrentLabel;
         private Button newSearchBtn;
+        private Button weekViewBtn;
     }
 }
