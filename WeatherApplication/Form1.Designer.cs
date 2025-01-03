@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             weatherLabel = new Label();
             sunPicture = new PictureBox();
@@ -42,6 +43,8 @@
             tempCurrentLabel = new Label();
             newSearchBtn = new Button();
             weekViewBtn = new Button();
+            currentDateLbl = new Label();
+            timeTimer = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)sunPicture).BeginInit();
             SuspendLayout();
             // 
@@ -183,12 +186,26 @@
             weekViewBtn.UseVisualStyleBackColor = true;
             weekViewBtn.Click += weekViewBtn_Click;
             // 
+            // currentDateLbl
+            // 
+            currentDateLbl.Font = new Font("Verdana", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            currentDateLbl.ForeColor = Color.FromArgb(210, 219, 229);
+            currentDateLbl.Location = new Point(32, 36);
+            currentDateLbl.Name = "currentDateLbl";
+            currentDateLbl.Size = new Size(203, 108);
+            currentDateLbl.TabIndex = 13;
+            // 
+            // timeTimer
+            // 
+            timeTimer.Tick += timeTimer_Tick;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 71, 124);
             ClientSize = new Size(1521, 689);
+            Controls.Add(currentDateLbl);
             Controls.Add(weekViewBtn);
             Controls.Add(newSearchBtn);
             Controls.Add(tempCurrentLabel);
@@ -226,5 +243,7 @@
         private Label tempCurrentLabel;
         private Button newSearchBtn;
         private Button weekViewBtn;
+        private Label currentDateLbl;
+        private System.Windows.Forms.Timer timeTimer;
     }
 }

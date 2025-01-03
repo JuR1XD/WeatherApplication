@@ -39,6 +39,9 @@ namespace WeatherApplication
             tempCurrentLabel.Visible = false;
             descriptionLabel.Visible = false;
             newSearchBtn.Visible = false;
+            currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
+            timeTimer.Enabled = true;
+            timeTimer.Interval = 1000;
         }
 
         private void exitBtn_Click(object sender, EventArgs e)
@@ -211,6 +214,11 @@ namespace WeatherApplication
         private void weekViewBtn_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void timeTimer_Tick(object sender, EventArgs e)
+        {
+            currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
         }
     }
 }
