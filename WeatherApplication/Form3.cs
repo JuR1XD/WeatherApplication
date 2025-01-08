@@ -1,15 +1,19 @@
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WeatherApplication
 {
-    public partial class Form1 : Form
+    public partial class Form3 : Form
     {
-        /*
-        Farbcodes:
-        Schrift: #D2DBE5
-        Hintergrund: 30; 71; 124
-         */
-        //Declaring and Initializing Variables
 
         private string urlGeoCode = string.Empty;
 
@@ -19,6 +23,10 @@ namespace WeatherApplication
 
         private string lon = string.Empty;
         private Cities selectedCity { get; set; }
+
+        int month = 0;
+
+        DateTime d;
 
         HttpClient clientGeo = null;
 
@@ -31,32 +39,59 @@ namespace WeatherApplication
         CountryCodeConverter countryCodeConverter = new CountryCodeConverter("C:\\Users\\jur1xd\\AlfaTrainingC#\\Projektarbeit\\WeatherApp\\WeatherApplication\\WeatherApplication\\country_codes.csv");
 
 
-        public Form1()
+        private string[] months = { "Januar", "Febrauar", "März", "April", "Mai",
+            "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" };
+
+
+        public Form3()
         {
             InitializeComponent();
+            for (int i = 0; i < 31; i++)
+            {
+                dayBox.Items.Add(i + 1);
+            }
+            for (int i = 0; i < 12; i++)
+            {
+                monthBox.Items.Add(months[i]);
+            }
+            for (int i = 1979; i <= DateTime.Now.Year; i++)
+            {
+                yearBox.Items.Add(i);
+            }
+            for (int i = 0; i < 24; i++)
+            {
+                hourBox.Items.Add(i);
+            }
+            for (int i = 0; i < 60; i++)
+            {
+                minuteBox.Items.Add(i);
+                secondsBox.Items.Add(i);
+            }
+            dayBox.SelectedIndex = 0;
+            monthBox.SelectedIndex = 0;
+            yearBox.SelectedIndex = yearBox.Items.Count - 1;
+            hourBox.SelectedIndex = hourBox.Items.Count - 12;
+            minuteBox.SelectedIndex = 0;
+            secondsBox.SelectedIndex = 0;
             lbCities.Visible = false;
             confirmBtn.Visible = false;
             denyBtn.Visible = false;
             lbCities.MultiColumn = false;
-            placeLabel.Visible = false;
-            tempCurrentLabel.Visible = false;
-            descriptionLabel.Visible = false;
-            weekViewBtn.Visible = false;
-            newSearchBtn.Visible = false;
+            weatherLabel.Visible = false;
             currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
             timeTimer.Enabled = true;
             timeTimer.Interval = 1000;
-        }
-
-        private void exitBtn_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
         }
 
         private async void searchBtn_Click(object sender, EventArgs e)
         {
             try
             {
+                if (DateTime.Now < d)
+                {
+                    throw new Exception("Das eingegebene Datum ist in der Zukunft");
+                }
+
                 //Geocode API URI
                 urlGeoCode = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchText.Text + "&limit=5&appid=9df7a899f8af39899299a6f6ac9ce26b";
 
@@ -76,7 +111,26 @@ namespace WeatherApplication
                     state = city.Value<string>("state") == null || city.Value<string>("state").Equals(string.Empty) ? "" : city.Value<string>("state")
                 }).ToList();
 
+                string nameCompare = string.Empty;
+
+                string stateCompare = string.Empty;
+
+                string countryCompare = string.Empty;
+
+                for (int i = 0; i < cities.Count; i++)
+                {
+                    if (cities.Count > 1 && i > 0)
+                    {
+                        if (cities[i].name.Equals(cities[i - 1].name) && cities[i].state.Equals(cities[i - 1].state) && cities[i].country.Equals(cities[i - 1].country))
+                        {
+                            cities.Remove(cities[i]);
+                        }
+                    }
+                }
+
                 lbCities.DataSource = cities;
+
+                //lbCities.ValueMember = "name + country";
 
                 if (lbCities.Items.Count <= 0) throw new NoItemsInListBoxException("Es wurden keine Orte basierend auf Ihren Daten gefunden");
 
@@ -87,11 +141,28 @@ namespace WeatherApplication
                 lbCities.Visible = true;
                 confirmBtn.Visible = true;
                 denyBtn.Visible = true;
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                label4.Visible = false;
+                label5.Visible = false;
+                label6.Visible = false;
+                dayBox.Visible = false;
+                monthBox.Visible = false;
+                yearBox.Visible = false;
+                hourBox.Visible = false;
+                minuteBox.Visible = false;
+                secondsBox.Visible = false;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden", "FEHLER", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+        }
+        private void timeTimer_Tick(object sender, EventArgs e)
+        {
+            currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
         }
 
         private async void searchText_KeyUp(object sender, KeyEventArgs e)
@@ -100,6 +171,11 @@ namespace WeatherApplication
             {
                 try
                 {
+                    if (DateTime.Now < d)
+                    {
+                        throw new Exception("Das eingegebene Datum ist in der Zukunft");
+                    }
+
                     //Geocode API URI
                     urlGeoCode = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchText.Text + "&limit=5&appid=9df7a899f8af39899299a6f6ac9ce26b";
 
@@ -127,9 +203,6 @@ namespace WeatherApplication
 
                     for (int i = 0; i < cities.Count; i++)
                     {
-
-
-
                         if (cities.Count > 1 && i > 0)
                         {
                             if (cities[i].name.Equals(cities[i - 1].name) && cities[i].state.Equals(cities[i - 1].state) && cities[i].country.Equals(cities[i - 1].country))
@@ -137,8 +210,6 @@ namespace WeatherApplication
                                 cities.Remove(cities[i]);
                             }
                         }
-
-
                     }
 
                     lbCities.DataSource = cities;
@@ -151,10 +222,21 @@ namespace WeatherApplication
 
                     searchBtn.Visible = false;
                     searchText.Visible = false;
-                    pastWeatherBtn.Visible = false;
                     lbCities.Visible = true;
                     confirmBtn.Visible = true;
                     denyBtn.Visible = true;
+                    label1.Visible = false;
+                    label2.Visible = false;
+                    label3.Visible = false;
+                    label4.Visible = false;
+                    label5.Visible = false;
+                    label6.Visible = false;
+                    dayBox.Visible = false;
+                    monthBox.Visible = false;
+                    yearBox.Visible = false;
+                    hourBox.Visible = false;
+                    minuteBox.Visible = false;
+                    secondsBox.Visible = false;
 
                     e.Handled = true;
                     e.SuppressKeyPress = true;
@@ -164,16 +246,6 @@ namespace WeatherApplication
                     MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden", "FEHLER", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
-
-        private void denyBtn_Click(object sender, EventArgs e)
-        {
-            searchText.Text = string.Empty;
-            searchText.Visible = true;
-            searchBtn.Visible = true;
-            lbCities.Visible = false;
-            confirmBtn.Visible = false;
-            denyBtn.Visible = false;
         }
 
         private async void confirmBtn_Click(object sender, EventArgs e)
@@ -191,10 +263,30 @@ namespace WeatherApplication
             lat = city.lat;
             lon = city.lon;
 
-            placeLabel.Text = city.name + ":";
+            switch (monthBox.Text)
+            {
+                case "Januar": month = 1; break;
+                case "Februar": month = 2; break;
+                case "März": month = 3; break;
+                case "April": month = 4; break;
+                case "Mai": month = 5; break;
+                case "Juni": month = 6; break;
+                case "Juli": month = 7; break;
+                case "August": month = 8; break;
+                case "September": month = 9; break;
+                case "Oktober": month = 10; break;
+                case "November": month = 11; break;
+                case "Dezember": month = 12; break;
+            }
+
+            d = new DateTime(Convert.ToInt32(yearBox.SelectedItem.ToString()), month, Convert.ToInt32(dayBox.SelectedItem.ToString()), Convert.ToInt32(hourBox.SelectedItem.ToString()), Convert.ToInt32(minuteBox.SelectedItem.ToString()), Convert.ToInt32(secondsBox.SelectedItem.ToString()));
+
+
+            placeAndTimeLabel.Text = $"Das Wetter in {city.name} am {dayBox.Text}.{monthBox.Text}.{yearBox.Text} um {hourBox.Text}:{minuteBox.Text}";
+
 
             //Weather API URI
-            urlWeatherAPI = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&appid=9df7a899f8af39899299a6f6ac9ce26b&units=metric&lang=de&exclude=minutely";
+            urlWeatherAPI = "https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=" + lat + "&lon=" + lon + "&dt=" + ConvertToUnixTimestamp(d).ToString() + "&appid=9df7a899f8af39899299a6f6ac9ce26b&lang=de&units=metric";
 
             //Starting of the Weather API
             clientWeather = new HttpClient();
@@ -204,27 +296,69 @@ namespace WeatherApplication
             string responseBodyWeather = "[" + await messageWeather.Content.ReadAsStringAsync() + "]";
             JArray jsonObjectWeather = JArray.Parse(responseBodyWeather);
 
-            JToken jWeather = jsonObjectWeather[0]["current"];
+            JToken jWeather = jsonObjectWeather[0]["data"];
 
-            JToken jWeatherText = jWeather.SelectToken("weather");
+            JToken jWeatherText = jWeather[0]["temp"];
 
-            double temp = Convert.ToDouble(jWeather.SelectToken("temp").ToString());
+            double temp = Convert.ToDouble(jWeatherText.ToString());
 
             temp = Math.Round(temp, 0, MidpointRounding.AwayFromZero);
 
-            tempCurrentLabel.Text = temp + " �C";
+            tempLabel.Text = temp + " °C";
 
-            descriptionLabel.Text = jWeatherText[0]["description"].ToString();
-
-            weekViewBtn.Visible = true;
+            
             lbCities.Visible = false;
             confirmBtn.Visible = false;
             denyBtn.Visible = false;
-            placeLabel.Visible = true;
-            tempCurrentLabel.Visible = true;
-            descriptionLabel.Visible = true;
-            newSearchBtn.Visible = true;
+            weatherLabel.Visible = true;
+            searchText.Text = string.Empty;
+            searchText.Visible = true;
+            label1.Visible = true;
+            label2.Visible = true;
+            label3.Visible = true;
+            label4.Visible = true;
+            label5.Visible = true;
+            label6.Visible = true;
+            dayBox.Visible = true;
+            monthBox.Visible = true;
+            yearBox.Visible = true;
+            hourBox.Visible = true;
+            minuteBox.Visible = true;
+            secondsBox.Visible = true;
+        }
 
+        private void denyBtn_Click(object sender, EventArgs e)
+        {
+            searchText.Text = string.Empty;
+            searchText.Visible = true;
+            searchBtn.Visible = true;
+            lbCities.Visible = false;
+            confirmBtn.Visible = false;
+            denyBtn.Visible = false;
+            label1.Visible = false;
+            label2.Visible = false;
+            label3.Visible = false;
+            label4.Visible = false;
+            label5.Visible = false;
+            label6.Visible = false;
+            dayBox.Visible = false;
+            monthBox.Visible = false;
+            yearBox.Visible = false;
+            hourBox.Visible = false;
+            minuteBox.Visible = false;
+            secondsBox.Visible = false;
+        }
+
+        public static long ConvertToUnixTimestamp(DateTime dateTime)
+        {
+            DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            TimeSpan timeSpan = dateTime - unixEpoch;
+            return (long)timeSpan.TotalSeconds;
+        }
+
+        private void exitBtn_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
         }
 
         private void newSearchBtn_Click(object sender, EventArgs e)
@@ -232,32 +366,13 @@ namespace WeatherApplication
             searchText.Text = string.Empty;
             searchText.Visible = true;
             searchBtn.Visible = true;
-            pastWeatherBtn.Visible = true;
             lbCities.Visible = false;
             confirmBtn.Visible = false;
             denyBtn.Visible = false;
-            placeLabel.Visible = false;
-            tempCurrentLabel.Visible = false;
-            descriptionLabel.Visible = false;
             newSearchBtn.Visible = false;
-            weekViewBtn.Visible = false;
-        }
-
-        private void weekViewBtn_Click(object sender, EventArgs e)
-        {
-            Form2 f = new Form2(selectedCity);
-            f.Visible = true;
-        }
-
-        private void timeTimer_Tick(object sender, EventArgs e)
-        {
-            currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
-        }
-
-        private void pastWeatherBtn_Click(object sender, EventArgs e)
-        {
-            Form3 f = new Form3();
-            f.Visible = true;
+            weatherLabel.Visible = false;
+            tempLabel.Visible = false;
+            placeAndTimeLabel.Visible = false;
         }
     }
 }

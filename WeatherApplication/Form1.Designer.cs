@@ -45,6 +45,7 @@
             weekViewBtn = new Button();
             currentDateLbl = new Label();
             timeTimer = new System.Windows.Forms.Timer(components);
+            pastWeatherBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)sunPicture).BeginInit();
             SuspendLayout();
             // 
@@ -199,12 +200,24 @@
             // 
             timeTimer.Tick += timeTimer_Tick;
             // 
+            // pastWeatherBtn
+            // 
+            pastWeatherBtn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            pastWeatherBtn.Location = new Point(1350, 606);
+            pastWeatherBtn.Name = "pastWeatherBtn";
+            pastWeatherBtn.Size = new Size(159, 23);
+            pastWeatherBtn.TabIndex = 14;
+            pastWeatherBtn.Text = "Vorheriges Wetter";
+            pastWeatherBtn.UseVisualStyleBackColor = true;
+            pastWeatherBtn.Click += pastWeatherBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 71, 124);
             ClientSize = new Size(1521, 689);
+            Controls.Add(pastWeatherBtn);
             Controls.Add(currentDateLbl);
             Controls.Add(weekViewBtn);
             Controls.Add(newSearchBtn);
@@ -245,5 +258,6 @@
         private Button weekViewBtn;
         private Label currentDateLbl;
         private System.Windows.Forms.Timer timeTimer;
+        private Button pastWeatherBtn;
     }
 }
