@@ -47,14 +47,13 @@
             hourBox = new ComboBox();
             label5 = new Label();
             minuteBox = new ComboBox();
-            label6 = new Label();
-            secondsBox = new ComboBox();
             lbCities = new ListBox();
             confirmBtn = new Button();
             denyBtn = new Button();
             timeTimer = new System.Windows.Forms.Timer(components);
             newSearchBtn = new Button();
             exitBtn = new Button();
+            descriptionLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)sunPicture).BeginInit();
             SuspendLayout();
             // 
@@ -122,7 +121,7 @@
             // 
             tempLabel.Font = new Font("Verdana", 51.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tempLabel.ForeColor = Color.FromArgb(210, 219, 229);
-            tempLabel.Location = new Point(873, 502);
+            tempLabel.Location = new Point(873, 442);
             tempLabel.Name = "tempLabel";
             tempLabel.Size = new Size(408, 140);
             tempLabel.TabIndex = 20;
@@ -222,25 +221,6 @@
             minuteBox.Size = new Size(82, 23);
             minuteBox.TabIndex = 29;
             // 
-            // label6
-            // 
-            label6.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.FromArgb(210, 219, 229);
-            label6.Location = new Point(970, 293);
-            label6.Name = "label6";
-            label6.Size = new Size(91, 26);
-            label6.TabIndex = 32;
-            label6.Text = "Sekunde";
-            // 
-            // secondsBox
-            // 
-            secondsBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            secondsBox.FormattingEnabled = true;
-            secondsBox.Location = new Point(970, 322);
-            secondsBox.Name = "secondsBox";
-            secondsBox.Size = new Size(82, 23);
-            secondsBox.TabIndex = 31;
-            // 
             // lbCities
             // 
             lbCities.Font = new Font("Verdana", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -299,19 +279,27 @@
             exitBtn.UseVisualStyleBackColor = true;
             exitBtn.Click += exitBtn_Click;
             // 
+            // descriptionLabel
+            // 
+            descriptionLabel.Font = new Font("Verdana", 51.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            descriptionLabel.ForeColor = Color.FromArgb(210, 219, 229);
+            descriptionLabel.Location = new Point(888, 540);
+            descriptionLabel.Name = "descriptionLabel";
+            descriptionLabel.Size = new Size(408, 140);
+            descriptionLabel.TabIndex = 38;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 71, 124);
             ClientSize = new Size(1521, 689);
+            Controls.Add(descriptionLabel);
             Controls.Add(newSearchBtn);
             Controls.Add(exitBtn);
             Controls.Add(denyBtn);
             Controls.Add(confirmBtn);
             Controls.Add(lbCities);
-            Controls.Add(label6);
-            Controls.Add(secondsBox);
             Controls.Add(label5);
             Controls.Add(minuteBox);
             Controls.Add(label4);
@@ -357,13 +345,12 @@
         private ComboBox hourBox;
         private Label label5;
         private ComboBox minuteBox;
-        private Label label6;
-        private ComboBox secondsBox;
         private ListBox lbCities;
         private Button confirmBtn;
         private Button denyBtn;
         private System.Windows.Forms.Timer timeTimer;
         private Button newSearchBtn;
         private Button exitBtn;
+        private Label descriptionLabel;
     }
 }

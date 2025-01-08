@@ -65,14 +65,12 @@ namespace WeatherApplication
             for (int i = 0; i < 60; i++)
             {
                 minuteBox.Items.Add(i);
-                secondsBox.Items.Add(i);
             }
             dayBox.SelectedIndex = 0;
             monthBox.SelectedIndex = 0;
             yearBox.SelectedIndex = yearBox.Items.Count - 1;
             hourBox.SelectedIndex = hourBox.Items.Count - 12;
             minuteBox.SelectedIndex = 0;
-            secondsBox.SelectedIndex = 0;
             lbCities.Visible = false;
             confirmBtn.Visible = false;
             denyBtn.Visible = false;
@@ -81,6 +79,8 @@ namespace WeatherApplication
             currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
             timeTimer.Enabled = true;
             timeTimer.Interval = 1000;
+            newSearchBtn.Visible = false;
+            descriptionLabel.Visible = false;
         }
 
         private async void searchBtn_Click(object sender, EventArgs e)
@@ -146,13 +146,11 @@ namespace WeatherApplication
                 label3.Visible = false;
                 label4.Visible = false;
                 label5.Visible = false;
-                label6.Visible = false;
                 dayBox.Visible = false;
                 monthBox.Visible = false;
                 yearBox.Visible = false;
                 hourBox.Visible = false;
                 minuteBox.Visible = false;
-                secondsBox.Visible = false;
             }
             catch (Exception ex)
             {
@@ -230,13 +228,11 @@ namespace WeatherApplication
                     label3.Visible = false;
                     label4.Visible = false;
                     label5.Visible = false;
-                    label6.Visible = false;
                     dayBox.Visible = false;
                     monthBox.Visible = false;
                     yearBox.Visible = false;
                     hourBox.Visible = false;
                     minuteBox.Visible = false;
-                    secondsBox.Visible = false;
 
                     e.Handled = true;
                     e.SuppressKeyPress = true;
@@ -279,10 +275,13 @@ namespace WeatherApplication
                 case "Dezember": month = 12; break;
             }
 
-            d = new DateTime(Convert.ToInt32(yearBox.SelectedItem.ToString()), month, Convert.ToInt32(dayBox.SelectedItem.ToString()), Convert.ToInt32(hourBox.SelectedItem.ToString()), Convert.ToInt32(minuteBox.SelectedItem.ToString()), Convert.ToInt32(secondsBox.SelectedItem.ToString()));
+            d = new DateTime(Convert.ToInt32(yearBox.SelectedItem.ToString()), month, Convert.ToInt32(dayBox.SelectedItem.ToString()), Convert.ToInt32(hourBox.SelectedItem.ToString()), Convert.ToInt32(minuteBox.SelectedItem.ToString()), 0);
 
+            //string minuteBoxFormat = minuteBox.Text == "0" ? "00" : minuteBox.Text.Length < 2 ? "0" + minuteBox.Text : minuteBox.Text;
 
-            placeAndTimeLabel.Text = $"Das Wetter in {city.name} am {dayBox.Text}.{monthBox.Text}.{yearBox.Text} um {hourBox.Text}:{minuteBox.Text}";
+            //string hourBoxFormat = minuteBox.Text == "0" ? "00" : minuteBox.Text.Length < 2 ? "0" + minuteBox.Text : minuteBox.Text;
+
+            placeAndTimeLabel.Text = $"Das Wetter in {city.name} am {d.Day.ToString()}.{d.Month.ToString()}.{d.Year.ToString()} um {d.Hour.ToString()}:{d.Minute.ToString()}";
 
 
             //Weather API URI
@@ -304,9 +303,19 @@ namespace WeatherApplication
 
             temp = Math.Round(temp, 0, MidpointRounding.AwayFromZero);
 
+            JToken jWeatherDescription = jWeather[0]["weather"];
+
+            string jWeatherDescriptionText = jWeatherDescription[0]["description"].Value<string>();
+
+            descriptionLabel.Text = jWeatherDescriptionText;
+
             tempLabel.Text = temp + " °C";
 
             
+            descriptionLabel.Visible = true;
+            tempLabel.Visible = true;
+            placeAndTimeLabel.Visible = true;
+            newSearchBtn.Visible = true;
             lbCities.Visible = false;
             confirmBtn.Visible = false;
             denyBtn.Visible = false;
@@ -318,13 +327,11 @@ namespace WeatherApplication
             label3.Visible = true;
             label4.Visible = true;
             label5.Visible = true;
-            label6.Visible = true;
             dayBox.Visible = true;
             monthBox.Visible = true;
             yearBox.Visible = true;
             hourBox.Visible = true;
             minuteBox.Visible = true;
-            secondsBox.Visible = true;
         }
 
         private void denyBtn_Click(object sender, EventArgs e)
@@ -340,13 +347,11 @@ namespace WeatherApplication
             label3.Visible = false;
             label4.Visible = false;
             label5.Visible = false;
-            label6.Visible = false;
             dayBox.Visible = false;
             monthBox.Visible = false;
             yearBox.Visible = false;
             hourBox.Visible = false;
             minuteBox.Visible = false;
-            secondsBox.Visible = false;
         }
 
         public static long ConvertToUnixTimestamp(DateTime dateTime)
@@ -363,6 +368,11 @@ namespace WeatherApplication
 
         private void newSearchBtn_Click(object sender, EventArgs e)
         {
+            dayBox.SelectedIndex = 0;
+            monthBox.SelectedIndex = 0;
+            yearBox.SelectedIndex = yearBox.Items.Count - 1;
+            hourBox.SelectedIndex = hourBox.Items.Count - 12;
+            minuteBox.SelectedIndex = 0;
             searchText.Text = string.Empty;
             searchText.Visible = true;
             searchBtn.Visible = true;
@@ -373,6 +383,7 @@ namespace WeatherApplication
             weatherLabel.Visible = false;
             tempLabel.Visible = false;
             placeAndTimeLabel.Visible = false;
+            descriptionLabel.Visible = false;
         }
     }
 }
