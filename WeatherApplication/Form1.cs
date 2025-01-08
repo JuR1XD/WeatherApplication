@@ -10,9 +10,15 @@ namespace WeatherApplication
         Hintergrund: 30; 71; 124
          */
         //Declaring and Initializing Variables
+
         private string urlGeoCode = string.Empty;
 
         private string urlWeatherAPI = string.Empty;
+
+        private string lat = string.Empty;
+
+        private string lon = string.Empty;
+        private Cities selectedCity { get; set; }
 
         HttpClient clientGeo = null;
 
@@ -24,9 +30,6 @@ namespace WeatherApplication
 
         CountryCodeConverter countryCodeConverter = new CountryCodeConverter("C:\\Users\\jur1xd\\AlfaTrainingC#\\Projektarbeit\\WeatherApp\\WeatherApplication\\WeatherApplication\\country_codes.csv");
 
-        string lat = string.Empty;
-
-        string lon = string.Empty;
 
         public Form1()
         {
@@ -38,7 +41,11 @@ namespace WeatherApplication
             placeLabel.Visible = false;
             tempCurrentLabel.Visible = false;
             descriptionLabel.Visible = false;
+            weekViewBtn.Visible = false;
             newSearchBtn.Visible = false;
+            currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
+            timeTimer.Enabled = true;
+            timeTimer.Interval = 1000;
         }
 
         private void exitBtn_Click(object sender, EventArgs e)
@@ -83,7 +90,7 @@ namespace WeatherApplication
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden\n\n{ex.Message}", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden", "FEHLER", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -112,6 +119,28 @@ namespace WeatherApplication
                         state = city.Value<string>("state") == null || city.Value<string>("state").Equals(string.Empty) ? "" : city.Value<string>("state")
                     }).ToList();
 
+                    string nameCompare = string.Empty;
+
+                    string stateCompare = string.Empty;
+
+                    string countryCompare = string.Empty;
+
+                    for (int i = 0; i < cities.Count; i++)
+                    {
+
+                        
+
+                        if (cities.Count > 1 && i > 0)
+                        {
+                            if (cities[i].name.Equals(cities[i-1].name) && cities[i].state.Equals(cities[i-1].state) && cities[i].country.Equals(cities[i-1].country))
+                            {
+                                cities.Remove(cities[i]);
+                            }
+                        }
+
+                        
+                    }
+
                     lbCities.DataSource = cities;
 
                     //lbCities.ValueMember = "name + country";
@@ -131,7 +160,7 @@ namespace WeatherApplication
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden\n\n{ex.Message}", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden", "FEHLER", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -155,6 +184,8 @@ namespace WeatherApplication
             //lon = weatherData.SelectToken("lon").ToString();
 
             Cities city = (Cities)lbCities.SelectedItem;
+
+            selectedCity = city;
 
             lat = city.lat;
             lon = city.lon;
@@ -184,6 +215,7 @@ namespace WeatherApplication
 
             descriptionLabel.Text = jWeatherText[0]["description"].ToString();
 
+            weekViewBtn.Visible = true;
             lbCities.Visible = false;
             confirmBtn.Visible = false;
             denyBtn.Visible = false;
@@ -206,11 +238,18 @@ namespace WeatherApplication
             tempCurrentLabel.Visible = false;
             descriptionLabel.Visible = false;
             newSearchBtn.Visible = false;
+            weekViewBtn.Visible = false;
         }
 
         private void weekViewBtn_Click(object sender, EventArgs e)
         {
+            Form2 f = new Form2(selectedCity);
+            f.Visible = true;
+        }
 
+        private void timeTimer_Tick(object sender, EventArgs e)
+        {
+            currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
         }
     }
 }
