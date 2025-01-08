@@ -41,6 +41,7 @@ namespace WeatherApplication
             placeLabel.Visible = false;
             tempCurrentLabel.Visible = false;
             descriptionLabel.Visible = false;
+            weekViewBtn.Visible = false;
             newSearchBtn.Visible = false;
             currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
             timeTimer.Enabled = true;
@@ -89,7 +90,7 @@ namespace WeatherApplication
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden\n\n{ex.Message}", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden", "FEHLER", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -159,7 +160,7 @@ namespace WeatherApplication
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden\n\n{ex.Message}", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Der gesuchte Ort konnte nicht gefunden werden", "FEHLER", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -214,6 +215,7 @@ namespace WeatherApplication
 
             descriptionLabel.Text = jWeatherText[0]["description"].ToString();
 
+            weekViewBtn.Visible = true;
             lbCities.Visible = false;
             confirmBtn.Visible = false;
             denyBtn.Visible = false;
@@ -236,11 +238,13 @@ namespace WeatherApplication
             tempCurrentLabel.Visible = false;
             descriptionLabel.Visible = false;
             newSearchBtn.Visible = false;
+            weekViewBtn.Visible = false;
         }
 
         private void weekViewBtn_Click(object sender, EventArgs e)
         {
-
+            Form2 f = new Form2(selectedCity);
+            f.Visible = true;
         }
 
         private void timeTimer_Tick(object sender, EventArgs e)

@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace WeatherApplication
 {
     internal static class Program
