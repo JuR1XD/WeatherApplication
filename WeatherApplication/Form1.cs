@@ -28,7 +28,7 @@ namespace WeatherApplication
 
         HttpResponseMessage messageWeather;
 
-        CountryCodeConverter countryCodeConverter = new CountryCodeConverter("C:\\Users\\jur1xd\\AlfaTrainingC#\\Projektarbeit\\WeatherApp\\WeatherApplication\\WeatherApplication\\country_codes.csv");
+        CountryCodeConverter countryCodeConverter = new CountryCodeConverter("country_codes.csv");
 
 
         public Form1()
@@ -144,8 +144,6 @@ namespace WeatherApplication
                     }
 
                     lbCities.DataSource = cities;
-
-                    //lbCities.ValueMember = "name + country";
 
                     if (lbCities.Items.Count <= 0) throw new NoItemsInListBoxException("Es wurden keine Orte basierend auf Ihren Daten gefunden");
 

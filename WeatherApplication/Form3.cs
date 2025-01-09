@@ -313,7 +313,7 @@ namespace WeatherApplication
 
             //string hourBoxFormat = minuteBox.Text == "0" ? "00" : minuteBox.Text.Length < 2 ? "0" + minuteBox.Text : minuteBox.Text;
 
-            placeAndTimeLabel.Text = $"Das Wetter in {city.name} am {d.ToString("dd.MM.yyy")} um {d.ToString("hh:mm")}";
+            placeAndTimeLabel.Text = $"Das Wetter in {city.name} am {d.ToString("dd.MM.yyy")} um {d.ToString("HH:mm")}";
 
 
             //Weather API URI
