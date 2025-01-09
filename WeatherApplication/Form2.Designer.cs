@@ -50,6 +50,7 @@
             tempDay5Label = new Label();
             descriptionDay5Label = new Label();
             exitBtn = new Button();
+            placeLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)sunPicture).BeginInit();
             SuspendLayout();
             // 
@@ -139,7 +140,7 @@
             // 
             // descriptionDay1Label
             // 
-            descriptionDay1Label.Font = new Font("Verdana", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            descriptionDay1Label.Font = new Font("Verdana", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             descriptionDay1Label.ForeColor = Color.FromArgb(210, 219, 229);
             descriptionDay1Label.Location = new Point(47, 499);
             descriptionDay1Label.Name = "descriptionDay1Label";
@@ -169,7 +170,7 @@
             // 
             // descriptionDay2Label
             // 
-            descriptionDay2Label.Font = new Font("Verdana", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            descriptionDay2Label.Font = new Font("Verdana", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             descriptionDay2Label.ForeColor = Color.FromArgb(210, 219, 229);
             descriptionDay2Label.Location = new Point(338, 499);
             descriptionDay2Label.Name = "descriptionDay2Label";
@@ -189,7 +190,7 @@
             // 
             // descriptionDay3Label
             // 
-            descriptionDay3Label.Font = new Font("Verdana", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            descriptionDay3Label.Font = new Font("Verdana", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             descriptionDay3Label.ForeColor = Color.FromArgb(210, 219, 229);
             descriptionDay3Label.Location = new Point(639, 499);
             descriptionDay3Label.Name = "descriptionDay3Label";
@@ -209,7 +210,7 @@
             // 
             // descriptionDay4Label
             // 
-            descriptionDay4Label.Font = new Font("Verdana", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            descriptionDay4Label.Font = new Font("Verdana", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             descriptionDay4Label.ForeColor = Color.FromArgb(210, 219, 229);
             descriptionDay4Label.Location = new Point(935, 499);
             descriptionDay4Label.Name = "descriptionDay4Label";
@@ -229,7 +230,7 @@
             // 
             // descriptionDay5Label
             // 
-            descriptionDay5Label.Font = new Font("Verdana", 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            descriptionDay5Label.Font = new Font("Verdana", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             descriptionDay5Label.ForeColor = Color.FromArgb(210, 219, 229);
             descriptionDay5Label.Location = new Point(1218, 499);
             descriptionDay5Label.Name = "descriptionDay5Label";
@@ -248,13 +249,22 @@
             exitBtn.UseVisualStyleBackColor = true;
             exitBtn.Click += exitBtn_Click;
             // 
+            // placeLabel
+            // 
+            placeLabel.Font = new Font("Verdana", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            placeLabel.ForeColor = Color.FromArgb(210, 219, 229);
+            placeLabel.Location = new Point(47, 156);
+            placeLabel.Name = "placeLabel";
+            placeLabel.Size = new Size(712, 99);
+            placeLabel.TabIndex = 27;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             BackColor = Color.FromArgb(30, 71, 124);
             ClientSize = new Size(1521, 689);
+            Controls.Add(placeLabel);
             Controls.Add(exitBtn);
             Controls.Add(tempDay5Label);
             Controls.Add(descriptionDay5Label);
@@ -274,6 +284,7 @@
             Controls.Add(day1Label);
             Controls.Add(sunPicture);
             Controls.Add(weatherLabel);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "Form2";
             Text = "Form2";
@@ -304,5 +315,6 @@
         private Label tempDay5Label;
         private Label descriptionDay5Label;
         private Button exitBtn;
+        private Label placeLabel;
     }
 }

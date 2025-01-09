@@ -144,14 +144,14 @@ namespace WeatherApplication
             placeLabel.Name = "placeLabel";
             placeLabel.Size = new Size(779, 263);
             placeLabel.TabIndex = 8;
-            placeLabel.TextAlign = ContentAlignment.TopRight;
+            placeLabel.TextAlign = ContentAlignment.MiddleLeft;
             placeLabel.Visible = false;
             // 
             // descriptionLabel
             // 
             descriptionLabel.Font = new Font("Verdana", 51.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             descriptionLabel.ForeColor = Color.FromArgb(210, 219, 229);
-            descriptionLabel.Location = new Point(875, 237);
+            descriptionLabel.Location = new Point(865, 412);
             descriptionLabel.Name = "descriptionLabel";
             descriptionLabel.Size = new Size(619, 217);
             descriptionLabel.TabIndex = 9;
@@ -161,7 +161,7 @@ namespace WeatherApplication
             // 
             tempCurrentLabel.Font = new Font("Verdana", 51.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tempCurrentLabel.ForeColor = Color.FromArgb(210, 219, 229);
-            tempCurrentLabel.Location = new Point(875, 454);
+            tempCurrentLabel.Location = new Point(865, 312);
             tempCurrentLabel.Name = "tempCurrentLabel";
             tempCurrentLabel.Size = new Size(408, 100);
             tempCurrentLabel.TabIndex = 10;

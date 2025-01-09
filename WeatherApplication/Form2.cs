@@ -33,6 +33,7 @@ namespace WeatherApplication
             DateTime today = DateTime.Now;
             lat = city.lat;
             lon = city.lon;
+            placeLabel.Text = city.name;
         }
 
         private void timeTimer_Tick(object sender, EventArgs e)

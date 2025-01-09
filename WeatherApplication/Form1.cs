@@ -28,7 +28,9 @@ namespace WeatherApplication
 
         HttpResponseMessage messageWeather;
 
-        CountryCodeConverter countryCodeConverter = new CountryCodeConverter("country_codes.csv");
+        string currentdir = Directory.GetCurrentDirectory();
+
+        CountryCodeConverter countryCodeConverter = new CountryCodeConverter("https://raw.githubusercontent.com/JuR1XD/countryCodes/refs/heads/main/country_codes.csv");
 
 
         public Form1()

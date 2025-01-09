@@ -36,7 +36,7 @@ namespace WeatherApplication
 
         HttpResponseMessage messageWeather;
 
-        CountryCodeConverter countryCodeConverter = new CountryCodeConverter("C:\\Users\\jur1xd\\AlfaTrainingC#\\Projektarbeit\\WeatherApp\\WeatherApplication\\WeatherApplication\\country_codes.csv");
+        CountryCodeConverter countryCodeConverter = new CountryCodeConverter("https://raw.githubusercontent.com/JuR1XD/countryCodes/refs/heads/main/country_codes.csv");
 
 
         private string[] months = { "Januar", "Februar", "März", "April", "Mai",
@@ -217,6 +217,11 @@ namespace WeatherApplication
                         }
 
                         d = new DateTime(Convert.ToInt32(yearBox.SelectedItem.ToString()), month, Convert.ToInt32(dayBox.SelectedItem.ToString()), Convert.ToInt32(hourBox.SelectedItem.ToString()), Convert.ToInt32(minuteBox.SelectedItem.ToString()), 0);
+
+                        if(d >  DateTime.Now)
+                        {
+                            throw new IncorrectDateFormatException();
+                        }
                     }
                     catch (IncorrectDateFormatException ex)
                     {
