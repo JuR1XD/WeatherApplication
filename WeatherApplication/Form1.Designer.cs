@@ -77,7 +77,7 @@ namespace WeatherApplication
             searchText.Font = new Font("Verdana", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             searchText.Location = new Point(356, 354);
             searchText.Name = "searchText";
-            searchText.PlaceholderText = "Bitte geben sie Ihre Stadt ein";
+            searchText.PlaceholderText = "Bitte geben Sie den gewünschten Ort ein.";
             searchText.Size = new Size(817, 31);
             searchText.TabIndex = 2;
             searchText.KeyDown += searchText_KeyDown;

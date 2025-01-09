@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace WeatherApplication
 {
+    /**
+     Klasse für die Konvertierung der sog. Country Codes in die Deutschen Ländernamen
+     */
     public class CountryCodeConverter
     {
         private Dictionary<string, string> countryNames;

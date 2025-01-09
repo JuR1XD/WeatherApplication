@@ -13,39 +13,38 @@ using System.Windows.Forms;
 
 namespace WeatherApplication
 {
+    /**
+     Form3: Wetter in der Vergangenheit anzeigen
+     */
     public partial class Form3 : Form
     {
+
+        //Deklarierung der benötigten Variablen für die API Calls
         private string urlGeoCode = string.Empty;
-
         private string urlWeatherAPI = string.Empty;
-
         private string lat = string.Empty;
-
         private string lon = string.Empty;
         private Cities selectedCity { get; set; }
-
-        int month = 0;
-
-        DateTime d;
-
         HttpClient clientGeo = null;
-
         HttpResponseMessage messageGeo;
-
         HttpClient clientWeather;
-
         HttpResponseMessage messageWeather;
 
-        CountryCodeConverter countryCodeConverter = new CountryCodeConverter("https://raw.githubusercontent.com/JuR1XD/countryCodes/refs/heads/main/country_codes.csv");
-
-
+        //Deklarierung der Variablen für die Abfrage des Datums
+        int month = 0;
+        DateTime d;
         private string[] months = { "Januar", "Februar", "März", "April", "Mai",
             "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" };
+
+        //Deklarierung der Klasse für die Konvertierung der Länder Codes        
+        CountryCodeConverter countryCodeConverter = new CountryCodeConverter("https://raw.githubusercontent.com/JuR1XD/countryCodes/refs/heads/main/country_codes.csv");
 
 
         public Form3()
         {
             InitializeComponent();
+
+            //Setzen der Daten für die ComboBoxen
             for (int i = 0; i < 31; i++)
             {
                 dayBox.Items.Add(i + 1);
@@ -71,6 +70,8 @@ namespace WeatherApplication
             yearBox.SelectedIndex = yearBox.Items.Count - 1;
             hourBox.SelectedIndex = hourBox.Items.Count - 12;
             minuteBox.SelectedIndex = 0;
+
+            //Einstellungen für die Objekte in der Form
             lbCities.Visible = false;
             confirmBtn.Visible = false;
             denyBtn.Visible = false;
@@ -89,6 +90,7 @@ namespace WeatherApplication
             {
                 try
                 {
+                    //Korrekte Übergabe des Datums
                     switch (monthBox.Text)
                     {
                         case "Januar": month = 1; break;
@@ -118,16 +120,17 @@ namespace WeatherApplication
                     throw new Exception("Das eingegebene Datum ist in der Zukunft");
                 }
 
-                //Geocode API URI
+                //Geocode API URL, welche den Text aus dem suchfeld enthält
                 urlGeoCode = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchText.Text + "&limit=5&appid=9df7a899f8af39899299a6f6ac9ce26b";
 
-                //Starting of the Geolocation API
+                //Geolocation API wird gestartet
                 clientGeo = new HttpClient();
                 messageGeo = await clientGeo.GetAsync(urlGeoCode);
                 messageGeo.EnsureSuccessStatusCode();
                 string responseBodyGeo = await messageGeo.Content.ReadAsStringAsync();
                 JArray jsonObjectGeo = JArray.Parse(responseBodyGeo);
 
+                //Sammeln einiger Ausgaben aus dem API Call in eine Liste 
                 var cities = jsonObjectGeo.Select(city => new Cities
                 {
                     name = city.Value<string>("name"),
@@ -137,10 +140,9 @@ namespace WeatherApplication
                     state = city.Value<string>("state") == null || city.Value<string>("state").Equals(string.Empty) ? "" : city.Value<string>("state")
                 }).ToList();
 
+                //Suche nach doppelten Städten mit den gleichen Daten
                 string nameCompare = string.Empty;
-
                 string stateCompare = string.Empty;
-
                 string countryCompare = string.Empty;
 
                 for (int i = 0; i < cities.Count; i++)
@@ -154,14 +156,14 @@ namespace WeatherApplication
                     }
                 }
 
+                //Zuweisen der restlichen Städte auf die ListBox
                 lbCities.DataSource = cities;
-
-                //lbCities.ValueMember = "name + country";
 
                 if (lbCities.Items.Count <= 0) throw new NoItemsInListBoxException("Es wurden keine Orte basierend auf Ihren Daten gefunden");
 
                 lbCities.SelectedIndex = 0;
 
+                //Nach erfolgreicher Verarbeitung werden die Forms Felder entsprechend verändert
                 searchBtn.Visible = false;
                 searchText.Visible = false;
                 lbCities.Visible = true;
@@ -184,15 +186,20 @@ namespace WeatherApplication
             }
 
         }
+
+        //Methode für Timer verarbeitung
         private void timeTimer_Tick(object sender, EventArgs e)
         {
             currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
         }
 
+
         private async void searchText_KeyDown(object sender, KeyEventArgs e)
         {
+            //Abfrage auf ENTER Key
             if (e.KeyCode == Keys.Enter)
             {
+                //Verhindern eines Windows Aktion Sounds nach dem Betätigen der Taste
                 e.Handled = true;
                 e.SuppressKeyPress = true;
 
@@ -200,6 +207,7 @@ namespace WeatherApplication
                 {
                     try
                     {
+                        //Korrekte Übergabe des Datums
                         switch (monthBox.Text)
                         {
                             case "Januar": month = 1; break;
@@ -230,16 +238,17 @@ namespace WeatherApplication
 
 
 
-                    //Geocode API URI
+                    //Geocode API URL, welche den Text aus dem suchfeld enthält
                     urlGeoCode = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchText.Text + "&limit=5&appid=9df7a899f8af39899299a6f6ac9ce26b";
 
-                    //Starting of the Geolocation API
+                    //Geolocation API wird gestartet
                     clientGeo = new HttpClient();
                     messageGeo = await clientGeo.GetAsync(urlGeoCode);
                     messageGeo.EnsureSuccessStatusCode();
                     string responseBodyGeo = await messageGeo.Content.ReadAsStringAsync();
                     JArray jsonObjectGeo = JArray.Parse(responseBodyGeo);
 
+                    //Sammeln einiger Ausgaben aus dem API Call in eine Liste 
                     var cities = jsonObjectGeo.Select(city => new Cities
                     {
                         name = city.Value<string>("name"),
@@ -249,10 +258,9 @@ namespace WeatherApplication
                         state = city.Value<string>("state") == null || city.Value<string>("state").Equals(string.Empty) ? "" : city.Value<string>("state")
                     }).ToList();
 
+                    //Suche nach doppelten Städten mit den gleichen Daten
                     string nameCompare = string.Empty;
-
                     string stateCompare = string.Empty;
-
                     string countryCompare = string.Empty;
 
                     for (int i = 0; i < cities.Count; i++)
@@ -265,15 +273,13 @@ namespace WeatherApplication
                             }
                         }
                     }
-
+                    //Zuweisen der restlichen Städte auf die ListBox
                     lbCities.DataSource = cities;
 
-                    //lbCities.ValueMember = "name + country";
-
                     if (lbCities.Items.Count <= 0) throw new NoItemsInListBoxException("Es wurden keine Orte basierend auf Ihren Daten gefunden");
-
                     lbCities.SelectedIndex = 0;
 
+                    //Nach erfolgreicher Verarbeitung werden die Forms Felder entsprechend verändert
                     searchBtn.Visible = false;
                     searchText.Visible = false;
                     lbCities.Visible = true;
@@ -299,56 +305,43 @@ namespace WeatherApplication
 
         private async void confirmBtn_Click(object sender, EventArgs e)
         {
-
-            //JObject weatherData = (lbCities.SelectedItem as JObject);
-
-            //lat = weatherData.SelectToken("lat").ToString();
-            //lon = weatherData.SelectToken("lon").ToString();
-
+            //Setzen der benötigten Variablen
             Cities city = (Cities)lbCities.SelectedItem;
-
             selectedCity = city;
-
             lat = city.lat;
             lon = city.lon;
 
-
-
-            //string minuteBoxFormat = minuteBox.Text == "0" ? "00" : minuteBox.Text.Length < 2 ? "0" + minuteBox.Text : minuteBox.Text;
-
-            //string hourBoxFormat = minuteBox.Text == "0" ? "00" : minuteBox.Text.Length < 2 ? "0" + minuteBox.Text : minuteBox.Text;
-
+            //Setzen der Zeitwerte in das Label
             placeAndTimeLabel.Text = $"Das Wetter in {city.name} am {d.ToString("dd.MM.yyy")} um {d.ToString("HH:mm")}";
 
 
-            //Weather API URI
+            //Weather API URL, welche die Werte lat, lon und die Methode ConvertToUnixTimeStamp für die Korrekte erfassung der Zeit und des Ortes enthält
             urlWeatherAPI = "https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=" + lat + "&lon=" + lon + "&dt=" + ConvertToUnixTimestamp(d).ToString() + "&appid=9df7a899f8af39899299a6f6ac9ce26b&lang=de&units=metric";
 
-            //Starting of the Weather API
+            //Die Weather API wird gestartet
             clientWeather = new HttpClient();
             messageWeather = await clientWeather.GetAsync(urlWeatherAPI);
             messageWeather.EnsureSuccessStatusCode();
-            //The Responsebody is sorrounded by [] because of the JSON Body structure
+
+            //Der Responsebody ist mit eckigen Klammern umhüllt wegen der Struktur
             string responseBodyWeather = "[" + await messageWeather.Content.ReadAsStringAsync() + "]";
             JArray jsonObjectWeather = JArray.Parse(responseBodyWeather);
 
+            //Die werte werden aus der JSON Datei gelesen und angewendet
             JToken jWeather = jsonObjectWeather[0]["data"];
-
             JToken jWeatherText = jWeather[0]["temp"];
 
             double temp = Convert.ToDouble(jWeatherText.ToString());
-
             temp = Math.Round(temp, 0, MidpointRounding.AwayFromZero);
 
             JToken jWeatherDescription = jWeather[0]["weather"];
-
             string jWeatherDescriptionText = jWeatherDescription[0]["description"].Value<string>();
 
+            //Die Label bekommen den entsprechenden Text
             descriptionLabel.Text = jWeatherDescriptionText;
-
             tempLabel.Text = temp + " °C";
 
-
+            //Die Forms Objekte werden entsprechen verändert
             descriptionLabel.Visible = true;
             tempLabel.Visible = true;
             placeAndTimeLabel.Visible = true;
@@ -373,6 +366,7 @@ namespace WeatherApplication
 
         private void denyBtn_Click(object sender, EventArgs e)
         {
+            //Die Forms Objekte werden entsprechen verändert
             searchText.Text = string.Empty;
             searchText.Visible = true;
             searchBtn.Visible = true;
@@ -391,6 +385,7 @@ namespace WeatherApplication
             minuteBox.Visible = false;
         }
 
+        //Methode zum Umwandeln des Objekts DateTime in einen Unix Timestamp
         public static long ConvertToUnixTimestamp(DateTime dateTime)
         {
             DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -398,11 +393,13 @@ namespace WeatherApplication
             return (long)timeSpan.TotalSeconds;
         }
 
+        //Beenden des Fensters
         private void exitBtn_Click(object sender, EventArgs e)
         {
             this.Dispose();
         }
 
+        //Die Werte werden zurückgesetzt und eine neue SUche kann begonnen werden
         private void newSearchBtn_Click(object sender, EventArgs e)
         {
             dayBox.SelectedIndex = 0;
