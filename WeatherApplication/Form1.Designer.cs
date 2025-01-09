@@ -80,7 +80,7 @@ namespace WeatherApplication
             searchText.PlaceholderText = "Bitte geben sie Ihre Stadt ein";
             searchText.Size = new Size(817, 31);
             searchText.TabIndex = 2;
-            searchText.KeyUp += searchText_KeyUp;
+            searchText.KeyDown += searchText_KeyDown;
             // 
             // searchBtn
             // 
@@ -205,11 +205,11 @@ namespace WeatherApplication
             // pastWeatherBtn
             // 
             pastWeatherBtn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            pastWeatherBtn.Location = new Point(1350, 606);
+            pastWeatherBtn.Location = new Point(1316, 606);
             pastWeatherBtn.Name = "pastWeatherBtn";
-            pastWeatherBtn.Size = new Size(159, 23);
+            pastWeatherBtn.Size = new Size(193, 23);
             pastWeatherBtn.TabIndex = 14;
-            pastWeatherBtn.Text = "Vorheriges Wetter";
+            pastWeatherBtn.Text = "Vergangene Wetterlage";
             pastWeatherBtn.UseVisualStyleBackColor = true;
             pastWeatherBtn.Click += pastWeatherBtn_Click;
             // 

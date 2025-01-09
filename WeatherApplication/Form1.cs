@@ -94,10 +94,12 @@ namespace WeatherApplication
             }
         }
 
-        private async void searchText_KeyUp(object sender, KeyEventArgs e)
+        private async void searchText_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
                 try
                 {
                     //Geocode API URI
@@ -155,9 +157,6 @@ namespace WeatherApplication
                     lbCities.Visible = true;
                     confirmBtn.Visible = true;
                     denyBtn.Visible = true;
-
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
                 }
                 catch (Exception ex)
                 {

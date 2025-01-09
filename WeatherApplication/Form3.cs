@@ -189,10 +189,13 @@ namespace WeatherApplication
             currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
         }
 
-        private async void searchText_KeyUp(object sender, KeyEventArgs e)
+        private async void searchText_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
                 try
                 {
                     try
@@ -281,9 +284,6 @@ namespace WeatherApplication
                     yearBox.Visible = false;
                     hourBox.Visible = false;
                     minuteBox.Visible = false;
-
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
                 }
                 catch (Exception ex)
                 {

@@ -96,7 +96,7 @@
             searchText.PlaceholderText = "Bitte geben sie Ihre Stadt ein";
             searchText.Size = new Size(817, 31);
             searchText.TabIndex = 17;
-            searchText.KeyUp += searchText_KeyUp;
+            searchText.KeyDown += searchText_KeyDown;
             // 
             // searchBtn
             // 
