@@ -54,6 +54,7 @@
             newSearchBtn = new Button();
             exitBtn = new Button();
             descriptionLabel = new Label();
+            label6 = new Label();
             ((System.ComponentModel.ISupportInitialize)sunPicture).BeginInit();
             SuspendLayout();
             // 
@@ -119,11 +120,11 @@
             // 
             // tempLabel
             // 
-            tempLabel.Font = new Font("Verdana", 51.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tempLabel.Font = new Font("Verdana", 38.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tempLabel.ForeColor = Color.FromArgb(210, 219, 229);
             tempLabel.Location = new Point(873, 442);
             tempLabel.Name = "tempLabel";
-            tempLabel.Size = new Size(408, 140);
+            tempLabel.Size = new Size(408, 86);
             tempLabel.TabIndex = 20;
             // 
             // dayBox
@@ -281,12 +282,22 @@
             // 
             // descriptionLabel
             // 
-            descriptionLabel.Font = new Font("Verdana", 51.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            descriptionLabel.Font = new Font("Verdana", 24.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             descriptionLabel.ForeColor = Color.FromArgb(210, 219, 229);
-            descriptionLabel.Location = new Point(888, 540);
+            descriptionLabel.Location = new Point(888, 531);
             descriptionLabel.Name = "descriptionLabel";
-            descriptionLabel.Size = new Size(408, 140);
+            descriptionLabel.Size = new Size(408, 149);
             descriptionLabel.TabIndex = 38;
+            // 
+            // label6
+            // 
+            label6.Font = new Font("Verdana", 60F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.FromArgb(210, 219, 229);
+            label6.Location = new Point(351, 36);
+            label6.Name = "label6";
+            label6.Size = new Size(408, 140);
+            label6.TabIndex = 39;
+            label6.Text = "Wetter";
             // 
             // Form3
             // 
@@ -294,6 +305,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 71, 124);
             ClientSize = new Size(1521, 689);
+            Controls.Add(label6);
             Controls.Add(descriptionLabel);
             Controls.Add(newSearchBtn);
             Controls.Add(exitBtn);
@@ -352,5 +364,6 @@
         private Button newSearchBtn;
         private Button exitBtn;
         private Label descriptionLabel;
+        private Label label6;
     }
 }

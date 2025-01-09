@@ -1,4 +1,6 @@
-﻿namespace WeatherApplication
+﻿using System.Globalization;
+
+namespace WeatherApplication
 {
     partial class Form1
     {

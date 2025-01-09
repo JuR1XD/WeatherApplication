@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ namespace WeatherApplication
 {
     public partial class Form3 : Form
     {
-
         private string urlGeoCode = string.Empty;
 
         private string urlWeatherAPI = string.Empty;
@@ -39,7 +39,7 @@ namespace WeatherApplication
         CountryCodeConverter countryCodeConverter = new CountryCodeConverter("C:\\Users\\jur1xd\\AlfaTrainingC#\\Projektarbeit\\WeatherApp\\WeatherApplication\\WeatherApplication\\country_codes.csv");
 
 
-        private string[] months = { "Januar", "Febrauar", "März", "April", "Mai",
+        private string[] months = { "Januar", "Februar", "März", "April", "Mai",
             "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" };
 
 
@@ -87,6 +87,32 @@ namespace WeatherApplication
         {
             try
             {
+                try
+                {
+                    switch (monthBox.Text)
+                    {
+                        case "Januar": month = 1; break;
+                        case "Februar": month = 2; break;
+                        case "März": month = 3; break;
+                        case "April": month = 4; break;
+                        case "Mai": month = 5; break;
+                        case "Juni": month = 6; break;
+                        case "Juli": month = 7; break;
+                        case "August": month = 8; break;
+                        case "September": month = 9; break;
+                        case "Oktober": month = 10; break;
+                        case "November": month = 11; break;
+                        case "Dezember": month = 12; break;
+                    }
+
+                    d = new DateTime(Convert.ToInt32(yearBox.SelectedItem.ToString()), month, Convert.ToInt32(dayBox.SelectedItem.ToString()), Convert.ToInt32(hourBox.SelectedItem.ToString()), Convert.ToInt32(minuteBox.SelectedItem.ToString()), 0);
+
+                }
+                catch (IncorrectDateFormatException ex)
+                {
+                    MessageBox.Show(ex.Message, "FEHLER", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
                 if (DateTime.Now < d)
                 {
                     throw new Exception("Das eingegebene Datum ist in der Zukunft");
@@ -169,10 +195,32 @@ namespace WeatherApplication
             {
                 try
                 {
-                    if (DateTime.Now < d)
+                    try
                     {
-                        throw new Exception("Das eingegebene Datum ist in der Zukunft");
+                        switch (monthBox.Text)
+                        {
+                            case "Januar": month = 1; break;
+                            case "Februar": month = 2; break;
+                            case "März": month = 3; break;
+                            case "April": month = 4; break;
+                            case "Mai": month = 5; break;
+                            case "Juni": month = 6; break;
+                            case "Juli": month = 7; break;
+                            case "August": month = 8; break;
+                            case "September": month = 9; break;
+                            case "Oktober": month = 10; break;
+                            case "November": month = 11; break;
+                            case "Dezember": month = 12; break;
+                        }
+
+                        d = new DateTime(Convert.ToInt32(yearBox.SelectedItem.ToString()), month, Convert.ToInt32(dayBox.SelectedItem.ToString()), Convert.ToInt32(hourBox.SelectedItem.ToString()), Convert.ToInt32(minuteBox.SelectedItem.ToString()), 0);
                     }
+                    catch (IncorrectDateFormatException ex)
+                    {
+                        MessageBox.Show(ex.Message, "FEHLER", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
 
                     //Geocode API URI
                     urlGeoCode = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchText.Text + "&limit=5&appid=9df7a899f8af39899299a6f6ac9ce26b";
@@ -259,29 +307,13 @@ namespace WeatherApplication
             lat = city.lat;
             lon = city.lon;
 
-            switch (monthBox.Text)
-            {
-                case "Januar": month = 1; break;
-                case "Februar": month = 2; break;
-                case "März": month = 3; break;
-                case "April": month = 4; break;
-                case "Mai": month = 5; break;
-                case "Juni": month = 6; break;
-                case "Juli": month = 7; break;
-                case "August": month = 8; break;
-                case "September": month = 9; break;
-                case "Oktober": month = 10; break;
-                case "November": month = 11; break;
-                case "Dezember": month = 12; break;
-            }
 
-            d = new DateTime(Convert.ToInt32(yearBox.SelectedItem.ToString()), month, Convert.ToInt32(dayBox.SelectedItem.ToString()), Convert.ToInt32(hourBox.SelectedItem.ToString()), Convert.ToInt32(minuteBox.SelectedItem.ToString()), 0);
 
             //string minuteBoxFormat = minuteBox.Text == "0" ? "00" : minuteBox.Text.Length < 2 ? "0" + minuteBox.Text : minuteBox.Text;
 
             //string hourBoxFormat = minuteBox.Text == "0" ? "00" : minuteBox.Text.Length < 2 ? "0" + minuteBox.Text : minuteBox.Text;
 
-            placeAndTimeLabel.Text = $"Das Wetter in {city.name} am {d.Day.ToString()}.{d.Month.ToString()}.{d.Year.ToString()} um {d.Hour.ToString()}:{d.Minute.ToString()}";
+            placeAndTimeLabel.Text = $"Das Wetter in {city.name} am {d.ToString("dd.MM.yyy")} um {d.ToString("hh:mm")}";
 
 
             //Weather API URI
@@ -311,7 +343,7 @@ namespace WeatherApplication
 
             tempLabel.Text = temp + " °C";
 
-            
+
             descriptionLabel.Visible = true;
             tempLabel.Visible = true;
             placeAndTimeLabel.Visible = true;
