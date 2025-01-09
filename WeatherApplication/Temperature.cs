@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace WeatherApplication
 {
+    /**
+        Diese Klasse wurde erstellt, damit die Temperatur inklusive der weiteren 
+        benötigten Daten in der Applikation gezeilt angezeigt werden kann.
+     */
     public class Temperature
     {
 

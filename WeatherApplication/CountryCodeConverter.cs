@@ -1,28 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace WeatherApplication
 {
+    /**
+     Klasse für die Konvertierung der sog. Country Codes in die Deutschen Ländernamen
+     */
     public class CountryCodeConverter
     {
-
         private Dictionary<string, string> countryNames;
 
-        public CountryCodeConverter(string csvFilePath)
+        public CountryCodeConverter(string csvUrl)
         {
             countryNames = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            LoadCountryDataFromCsv(csvFilePath);
+            LoadCountryDataFromUrlAsync(csvUrl);
         }
 
-        private void LoadCountryDataFromCsv(string csvFilePath)
+        public async Task LoadCountryDataFromUrlAsync(string csvUrl)
         {
             try
             {
-                foreach (var line in File.ReadAllLines(csvFilePath))
+                using (HttpClient client = new HttpClient())
+                {
+                    string csvData = await client.GetStringAsync(csvUrl);
+                    ProcessCsvData(csvData);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Fehler beim Herunterladen der CSV-Datei: {ex.Message}");
+            }
+        }
+
+        private void ProcessCsvData(string csvData)
+        {
+            using (StringReader reader = new StringReader(csvData))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
                 {
                     var values = line.Split(',');
 
@@ -37,10 +56,6 @@ namespace WeatherApplication
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Fehler beim Lesen der CSV-Datei: {ex.Message}");
             }
         }
 

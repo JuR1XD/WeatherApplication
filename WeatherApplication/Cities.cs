@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WeatherApplication
 {
+    /**
+     Klasse für die Verarbeitung der Geodaten
+     */
     public class Cities
     {
 
