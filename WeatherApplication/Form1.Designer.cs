@@ -1,4 +1,6 @@
-﻿namespace WeatherApplication
+﻿using System.Globalization;
+
+namespace WeatherApplication
 {
     partial class Form1
     {
@@ -45,6 +47,7 @@
             weekViewBtn = new Button();
             currentDateLbl = new Label();
             timeTimer = new System.Windows.Forms.Timer(components);
+            pastWeatherBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)sunPicture).BeginInit();
             SuspendLayout();
             // 
@@ -77,7 +80,7 @@
             searchText.PlaceholderText = "Bitte geben sie Ihre Stadt ein";
             searchText.Size = new Size(817, 31);
             searchText.TabIndex = 2;
-            searchText.KeyUp += searchText_KeyUp;
+            searchText.KeyDown += searchText_KeyDown;
             // 
             // searchBtn
             // 
@@ -199,12 +202,24 @@
             // 
             timeTimer.Tick += timeTimer_Tick;
             // 
+            // pastWeatherBtn
+            // 
+            pastWeatherBtn.Font = new Font("Verdana", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            pastWeatherBtn.Location = new Point(1316, 606);
+            pastWeatherBtn.Name = "pastWeatherBtn";
+            pastWeatherBtn.Size = new Size(193, 23);
+            pastWeatherBtn.TabIndex = 14;
+            pastWeatherBtn.Text = "Vergangene Wetterlage";
+            pastWeatherBtn.UseVisualStyleBackColor = true;
+            pastWeatherBtn.Click += pastWeatherBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 71, 124);
             ClientSize = new Size(1521, 689);
+            Controls.Add(pastWeatherBtn);
             Controls.Add(currentDateLbl);
             Controls.Add(weekViewBtn);
             Controls.Add(newSearchBtn);
@@ -245,5 +260,6 @@
         private Button weekViewBtn;
         private Label currentDateLbl;
         private System.Windows.Forms.Timer timeTimer;
+        private Button pastWeatherBtn;
     }
 }

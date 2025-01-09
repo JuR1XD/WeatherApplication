@@ -94,10 +94,12 @@ namespace WeatherApplication
             }
         }
 
-        private async void searchText_KeyUp(object sender, KeyEventArgs e)
+        private async void searchText_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
                 try
                 {
                     //Geocode API URI
@@ -128,17 +130,17 @@ namespace WeatherApplication
                     for (int i = 0; i < cities.Count; i++)
                     {
 
-                        
+
 
                         if (cities.Count > 1 && i > 0)
                         {
-                            if (cities[i].name.Equals(cities[i-1].name) && cities[i].state.Equals(cities[i-1].state) && cities[i].country.Equals(cities[i-1].country))
+                            if (cities[i].name.Equals(cities[i - 1].name) && cities[i].state.Equals(cities[i - 1].state) && cities[i].country.Equals(cities[i - 1].country))
                             {
                                 cities.Remove(cities[i]);
                             }
                         }
 
-                        
+
                     }
 
                     lbCities.DataSource = cities;
@@ -151,12 +153,10 @@ namespace WeatherApplication
 
                     searchBtn.Visible = false;
                     searchText.Visible = false;
+                    pastWeatherBtn.Visible = false;
                     lbCities.Visible = true;
                     confirmBtn.Visible = true;
                     denyBtn.Visible = true;
-
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
                 }
                 catch (Exception ex)
                 {
@@ -231,6 +231,7 @@ namespace WeatherApplication
             searchText.Text = string.Empty;
             searchText.Visible = true;
             searchBtn.Visible = true;
+            pastWeatherBtn.Visible = true;
             lbCities.Visible = false;
             confirmBtn.Visible = false;
             denyBtn.Visible = false;
@@ -250,6 +251,12 @@ namespace WeatherApplication
         private void timeTimer_Tick(object sender, EventArgs e)
         {
             currentDateLbl.Text = System.DateTime.Now.ToString("dddd") + "\n" + DateTime.Now.ToString();
+        }
+
+        private void pastWeatherBtn_Click(object sender, EventArgs e)
+        {
+            Form3 f = new Form3();
+            f.Visible = true;
         }
     }
 }
