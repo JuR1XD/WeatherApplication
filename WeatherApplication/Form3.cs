@@ -36,9 +36,10 @@ namespace WeatherApplication
         private string[] months = { "Januar", "Februar", "März", "April", "Mai",
             "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" };
 
-        //Deklarierung der Klasse für die Konvertierung der Länder Codes        
+        //Deklarierung und Initialisierung der Klasse für die Konvertierung der Länder Codes und der Übersetzung der Bundesländer
         CountryCodeConverter countryCodeConverter = new CountryCodeConverter("https://raw.githubusercontent.com/JuR1XD/countryCodes/refs/heads/main/country_codes.csv");
 
+        TranslateGermanStates ts = new TranslateGermanStates();
 
         public Form3()
         {
@@ -139,6 +140,8 @@ namespace WeatherApplication
                     lon = city.Value<string>("lon"),
                     state = city.Value<string>("state") == null || city.Value<string>("state").Equals(string.Empty) ? "" : city.Value<string>("state")
                 }).ToList();
+
+                ts.translate(cities);
 
                 //Suche nach doppelten Städten mit den gleichen Daten
                 string nameCompare = string.Empty;
@@ -257,6 +260,8 @@ namespace WeatherApplication
                         lon = city.Value<string>("lon"),
                         state = city.Value<string>("state") == null || city.Value<string>("state").Equals(string.Empty) ? "" : city.Value<string>("state")
                     }).ToList();
+
+                    ts.translate(cities);
 
                     //Suche nach doppelten Städten mit den gleichen Daten
                     string nameCompare = string.Empty;
